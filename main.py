@@ -12,7 +12,7 @@ class EncryptionPipeline:
     def encrypt(self, plaintext: str) -> str:
         print("\n===== Mulai Proses Enkripsi =====")
         # Enkripsi tahap 1 - AES128
-        ciphertext_aes = self.aes.encrypt(plaintext, output_format='base64')
+        ciphertext_aes = self.aes.encrypt(plaintext)
         print(f"\n[+] Ciphertext setelah AES128: {ciphertext_aes}")
 
         # Enkripsi tahap 2 - Vigenere
@@ -41,13 +41,13 @@ class EncryptionPipeline:
         print(f"[+] Setelah dekripsi Vigenere: {decrypted_vigenere}")
 
         # Dekripsi tahap 3 - AES128
-        decrypted_aes = self.aes.decrypt(decrypted_vigenere, input_format='base64')
-        print(f"[+] Setelah dekripsi AES128: {decrypted_aes.decode('Windows-1252')}")
-        
+        decrypted_aes = self.aes.decrypt(decrypted_vigenere)
+        print(f"[+] Setelah dekripsi AES128: {decrypted_aes}")
+
         print("\n===== Hasil Dekripsi =====")
-        finally_decrypted = decrypted_aes.decode('Windows-1252')
+        finally_decrypted = decrypted_aes
         print(f"[+] Hasil Dekripsi: {finally_decrypted}")
-      
+
         return finally_decrypted
 
 # Contoh Penggunaan

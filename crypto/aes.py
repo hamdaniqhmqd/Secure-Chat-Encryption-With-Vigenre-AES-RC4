@@ -1,55 +1,47 @@
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
-import binascii
 import base64
 from hashlib import sha256
 
 class AESCipher:
     def __init__(self, user_id: str):
-        hashed = sha256(user_id.encode("Windows-1252")).digest()
-        print(f"Hash: {hashed}")
+        hashed = sha256(user_id.encode()).digest() 
         self.key = hashed[:16]
         self.iv = hashed[16:32]
 
-    def encrypt(self, plaintext: str | bytes, output_format='bytes') -> bytes | str:
-        if isinstance(plaintext, str):
-            plaintext = plaintext.encode('Windows-1252')
+    def encrypt(self, plaintext: str) -> str:
+        plaintext = plaintext.encode()
 
         padded = pad(plaintext, AES.block_size)
         cipher = AES.new(self.key, AES.MODE_CBC, self.iv)
         ciphertext = cipher.encrypt(padded)
+        b64_ciphertext = base64.b64encode(ciphertext).decode()
 
         print("\n==== PROSES ENKRIPSI AES-128 ====")
-        print("Hash", self.key + self.iv)
-        print("Key", self.key)
-        print("IV", self.iv)
-        print("Plaintext (Hex)", padded)
-        print("Ciphertext", ciphertext)
+        print("Key:", self.key)
+        print("IV:", self.iv)
+        print("Plaintext (Hex):", padded)
+        print("Ciphertext (Hex):", ciphertext.hex())
+        print("Ciphertext (Base64):", b64_ciphertext)
 
-        if output_format == 'hex':
-            return ciphertext.hex()
-        elif output_format == 'base64':
-            return base64.b64encode(ciphertext).decode('Windows-1252')
-        return ciphertext
+        return b64_ciphertext
 
-    def decrypt(self, ciphertext: str | bytes, input_format='bytes') -> bytes:
-        if input_format == 'hex' and isinstance(ciphertext, str):
-            ciphertext = bytes.fromhex(ciphertext)
-        elif input_format == 'base64' and isinstance(ciphertext, str):
-            ciphertext = base64.b64decode(ciphertext)
+    def decrypt(self, ciphertext: str) -> str:
+        ciphertext_byte = base64.b64decode(ciphertext)
 
         cipher = AES.new(self.key, AES.MODE_CBC, self.iv)
-        decrypted = cipher.decrypt(ciphertext)
+        decrypted = cipher.decrypt(ciphertext_byte)
 
         try:
             plaintext = unpad(decrypted, AES.block_size)
             print("\n==== PROSES DEKRIPSI AES-128 ====")
-            print("Key", self.key)
-            print("IV", self.iv)
-            print("Ciphertext", ciphertext)
-            print("Decrypted Plaintext (Hex)", plaintext)
-            print(f"Decrypted Plaintext: {plaintext.decode(errors='ignore')}")
-            return plaintext
+            print("Key:", self.key)
+            print("IV:", self.iv)
+            print("Ciphertext:", ciphertext_byte)
+            print("Ciphertext (byte):", ciphertext_byte)
+            print("Decrypted Plaintext (Hex):", plaintext)
+            print(f"Decrypted Plaintext: {plaintext.decode()}")
+            return plaintext.decode()
         except ValueError:
             print("Error: Padding is incorrect. Data mungkin rusak atau kunci salah.")
             return b''
@@ -57,12 +49,12 @@ class AESCipher:
 # Contoh penggunaan
 if __name__ == "__main__":
     user_id = "233307092"
-    plaintext = "Halo, namaku ahmad, nama kamu siapa?"
+    plaintext = "Nama aku Hamdani"
 
     aes_cipher = AESCipher(user_id)
-    
-    ciphertext = aes_cipher.encrypt(plaintext, output_format='base64')
-    print(f"Ciphertext (Base64): {ciphertext}")
 
-    decrypted_text = aes_cipher.decrypt(ciphertext, input_format='base64')
-    print(f"Decrypted Text: {decrypted_text.decode('Windows-1252')}") 
+    ciphertext = aes_cipher.encrypt(plaintext)
+    print(f"Ciphertext: {ciphertext}")
+
+    decrypted_text = aes_cipher.decrypt(ciphertext)
+    print(f"Decrypted Text: {decrypted_text}")
