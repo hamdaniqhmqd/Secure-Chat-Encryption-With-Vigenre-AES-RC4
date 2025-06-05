@@ -1,49 +1,4 @@
 # FINAL RC NO BUG
-# class RC4:
-#     def __init__(self, key: str):
-#         self.key_bytes = [ord(character) for character in key]
-
-#     def _init_sbox(self):
-#         sbox = list(range(256))
-#         key_index = 0
-#         for i in range(256):
-#             key_index = (key_index + sbox[i] + self.key_bytes[i % len(self.key_bytes)]) % 256
-#             sbox[i], sbox[key_index] = sbox[key_index], sbox[i]
-#         return sbox
-
-#     def crypt(self, plaintext: str) -> str:
-#         sbox = self._init_sbox()
-#         index_i = 0
-#         index_j = 0
-#         ciphertext_chars = []
-
-#         for character in plaintext:
-#             index_i = (index_i + 1) % 256
-#             index_j = (index_j + sbox[index_i]) % 256
-#             sbox[index_i], sbox[index_j] = sbox[index_j], sbox[index_i]
-
-#             keystream_index = (sbox[index_i] + sbox[index_j]) % 256
-#             keystream_byte = sbox[keystream_index]
-
-#             encrypted_char = chr(ord(character) ^ keystream_byte)
-#             ciphertext_chars.append(encrypted_char)
-
-#         return ''.join(ciphertext_chars)
-
-# key = "yudha"
-# plaintext = "aku yudha"
-# obj = RC4(key)
-# sbox = obj._init_sbox()
-
-# ciphertext = obj.crypt(plaintext)
-# decrypted = obj.crypt(ciphertext)
-
-# print(f"Key: {obj.key_bytes}")
-# print(f"SBox: {sbox}")
-# print(f"Hail Enskripsi: {ciphertext}")
-# print(f"Hasil Dekripsi: {decrypted}")
-
-# WITH PROCESS
 class RC4:
     def __init__(self, key: str):
         self.key_bytes = [ord(character) for character in key]
@@ -62,8 +17,7 @@ class RC4:
         index_j = 0
         ciphertext_chars = []
 
-        print("\n=== PROSES ENKRIPSI ===")
-        for idx, character in enumerate(plaintext):
+        for character in plaintext:
             index_i = (index_i + 1) % 256
             index_j = (index_j + sbox[index_i]) % 256
             sbox[index_i], sbox[index_j] = sbox[index_j], sbox[index_i]
@@ -74,23 +28,69 @@ class RC4:
             encrypted_char = chr(ord(character) ^ keystream_byte)
             ciphertext_chars.append(encrypted_char)
 
-            print(f"[{idx}] '{character}' -> ord: {ord(character)} | keystream: {keystream_byte} | XOR result: {ord(character) ^ keystream_byte} -> '{encrypted_char}'")
-
         return ''.join(ciphertext_chars)
 
+# key = "yudha"
+# plaintext = "aku yudha"
+# obj = RC4(key)
+# sbox = obj._init_sbox()
 
-key = "yudha"
-plaintext = "aku yudha"
-obj = RC4(key)
-sbox = obj._init_sbox()
+# ciphertext = obj.crypt(plaintext)
+# decrypted = obj.crypt(ciphertext)
 
-ciphertext = obj.crypt(plaintext)
-decrypted = obj.crypt(ciphertext)
+# print(f"Key: {obj.key_bytes}")
+# print(f"SBox: {sbox}")
+# print(f"Hail Enskripsi: {ciphertext}")
+# print(f"Hasil Dekripsi: {decrypted}")
 
-print(f"Key: {obj.key_bytes}\n")
-print(f"SBox: {sbox}\n")
-print(f"Hail Enskripsi: {ciphertext}")
-print(f"Hasil Dekripsi: {decrypted}\n")
+# WITH PROCESS
+# class RC4:
+#     def __init__(self, key: str):
+#         self.key_bytes = [ord(character) for character in key]
+
+#     def _init_sbox(self):
+#         sbox = list(range(256))
+#         key_index = 0
+#         for i in range(256):
+#             key_index = (key_index + sbox[i] + self.key_bytes[i % len(self.key_bytes)]) % 256
+#             sbox[i], sbox[key_index] = sbox[key_index], sbox[i]
+#         return sbox
+
+#     def crypt(self, plaintext: str) -> str:
+#         sbox = self._init_sbox()
+#         index_i = 0
+#         index_j = 0
+#         ciphertext_chars = []
+
+#         print("\n=== PROSES ENKRIPSI ===")
+#         for idx, character in enumerate(plaintext):
+#             index_i = (index_i + 1) % 256
+#             index_j = (index_j + sbox[index_i]) % 256
+#             sbox[index_i], sbox[index_j] = sbox[index_j], sbox[index_i]
+
+#             keystream_index = (sbox[index_i] + sbox[index_j]) % 256
+#             keystream_byte = sbox[keystream_index]
+
+#             encrypted_char = chr(ord(character) ^ keystream_byte)
+#             ciphertext_chars.append(encrypted_char)
+
+#             print(f"[{idx}] '{character}' -> ord: {ord(character)} | keystream: {keystream_byte} | XOR result: {ord(character) ^ keystream_byte} -> '{encrypted_char}'")
+
+#         return ''.join(ciphertext_chars)
+
+
+# key = "yu"
+# plaintext = "aku yudha"
+# obj = RC4(key)
+# sbox = obj._init_sbox()
+
+# ciphertext = obj.crypt(plaintext)
+# decrypted = obj.crypt(ciphertext)
+
+# print(f"\nKey: {obj.key_bytes}\n")
+# print(f"SBox: {sbox}\n")
+# print(f"Hail Enskripsi: {ciphertext}")
+# print(f"Hasil Dekripsi: {decrypted}\n")
 
 
 # OGIGINAL
