@@ -53,7 +53,7 @@ class EncryptionPipeline:
 # Contoh Penggunaan
 if __name__ == "__main__":
     user_id = "233307092"
-    plaintext = "Halo, namaku ahmad, nama kamu siapa?, Halo, namaku ahmad, nama kamu siapa?, Halo, namaku ahmad, nama kamu siapa?"
+    plaintext = "Halo, namaku ahmad, nama kamu siapa?"
     
     print(f"User ID: {user_id}")
     print(f"Pesan: {plaintext}")

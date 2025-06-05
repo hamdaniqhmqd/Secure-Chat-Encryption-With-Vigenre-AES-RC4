@@ -23,15 +23,14 @@ class RC4:
             result.append(chr(ord(char) ^ k))
         return ''.join(result)
 
+# Example usage of RC4
+if __name__ == "__main__":
+    key = "233307092"
+    plaintext = "Halo, namaku ahmad, nama kamu siapa?"
+    
+    rc4 = RC4(key)
+    ciphertext = rc4.crypt(plaintext)
+    print(f"Ciphertext: {ciphertext}")
 
-key = "123456789"
-pesan = "Bagas Yudha"
-
-rc4 = RC4(key)
-
-ciphertext = rc4.crypt(pesan)
-print("Ciphertext:", ciphertext)
-
-# Karena RC4 bersifat simetris, cukup panggil lagi `crypt` untuk dekripsi
-decrypted = rc4.crypt(ciphertext)
-print("Decrypted :", decrypted)
+    decrypted_text = rc4.crypt(ciphertext)  # Decrypting is the same operation
+    print(f"Decrypted Text: {decrypted_text}")
