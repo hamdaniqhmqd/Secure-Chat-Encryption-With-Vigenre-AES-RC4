@@ -81,44 +81,6 @@ class RC4:
 # print(f"Hasil Dekripsi: {decrypted}")
 
 
-# OGIGINAL
-# class RC4:
-#     def __init__(self, key: str):
-#         self.key = [ord(c) for c in key]
-
-#     def _init_sbox(self):
-#         S = list(range(256))
-#         j = 0
-#         for i in range(256):
-#             j = (j + S[i] + self.key[i % len(self.key)]) % 256
-#             S[i], S[j] = S[j], S[i]
-#         return S
-
-#     def crypt(self, text: str) -> str:
-#         S = self._init_sbox()
-#         i = j = 0
-#         result = []
-#         for char in text:
-#             i = (i + 1) % 256
-#             j = (j + S[i]) % 256
-#             S[i], S[j] = S[j], S[i]
-#             t = (S[i] + S[j]) % 256
-#             k = S[t]
-#             result.append(chr(ord(char) ^ k))
-#         return ''.join(result)
-
-
-# key = "yudha"
-# plaintext = "Halo, aku Yudha!"
-# obj = RC4(key)
-
-# ciphertext = RC4(key).crypt(plaintext)
-# decrypted = RC4(key).crypt(ciphertext)
-
-# print(f"Key: {obj.key}")
-# print(f"Hail Enskripsi: {ciphertext}")
-# print(f"Hasil Dekripsi: {decrypted}")
-
 # SIMPLIER WITH COMMENT
 # class RC4:
 #     def __init__(self, key: str):
@@ -158,4 +120,73 @@ class RC4:
 #             ciphertext_chars.append(encrypted_char)
 
 #         # gabungkan semua karakter terenkripsi jadi satu string
+#         return ''.join(ciphertext_chars)
+
+
+# class RC4:
+#     def __init__(self, key: str):
+#         # konstruktor RC4: menerima input key dalam bentuk string
+#         # setiap karakter pada string key diubah menjadi nilai ASCII-nya menggunakan ord()
+#         # misal: key = "abc" -> [97, 98, 99]
+#         self.key_bytes = [ord(character) for character in key]
+
+#     def _init_sbox(self):
+#         # membuat list sbox berisi angka 0 sampai 255 (total 256 nilai)
+#         sbox = list(range(256))
+
+#         # key_index digunakan untuk melacak posisi index dari key saat mengacak sbox
+#         key_index = 0
+
+#         # algoritma KSA (Key Scheduling Algorithm)
+#         # proses pengacakan elemen-elemen di dalam sbox berdasarkan isi key
+#         for i in range(256):
+#             # menghitung index baru berdasarkan sbox saat ini dan karakter key
+#             # i % len(self.key_bytes): memastikan pengaksesan key berulang jika key lebih pendek dari 256
+#             key_index = (key_index + sbox[i] + self.key_bytes[i % len(self.key_bytes)]) % 256
+
+#             # pertukaran posisi antara elemen sbox[i] dengan sbox[key_index] (proses swap)
+#             # fungsi tuple swap di Python:
+#             # x, y = y, x akan menukar nilai x dan y secara langsung
+#             sbox[i], sbox[key_index] = sbox[key_index], sbox[i]
+
+#         # setelah proses KSA selesai, sbox akan berisi susunan acak berdasarkan key
+#         return sbox
+
+#     def crypt(self, plaintext: str) -> str:
+#         # memanggil _init_sbox untuk mendapatkan sbox hasil KSA
+#         sbox = self._init_sbox()
+
+#         # index_i dan index_j digunakan pada algoritma PRGA (Pseudo-Random Generation Algorithm)
+#         index_i = 0
+#         index_j = 0
+
+#         # list kosong untuk menyimpan hasil enkripsi karakter demi karakter
+#         ciphertext_chars = []
+
+#         # proses PRGA dimulai, untuk setiap karakter di plaintext
+#         for character in plaintext:
+#             # index_i terus bertambah 1 (dan dibungkus 256 agar tetap dalam rentang 0-255)
+#             index_i = (index_i + 1) % 256
+
+#             # index_j dihitung berdasarkan nilai sbox saat ini
+#             index_j = (index_j + sbox[index_i]) % 256
+
+#             # pertukaran sbox[index_i] dan sbox[index_j] untuk menjaga keacakan
+#             sbox[index_i], sbox[index_j] = sbox[index_j], sbox[index_i]
+
+#             # menentukan keystream index dari hasil penjumlahan sbox[index_i] dan sbox[index_j]
+#             keystream_index = (sbox[index_i] + sbox[index_j]) % 256
+
+#             # ambil byte dari sbox berdasarkan keystream_index sebagai byte kunci (keystream_byte)
+#             keystream_byte = sbox[keystream_index]
+
+#             # enkripsi karakter dengan operasi XOR antara byte plaintext dan byte keystream
+#             # ord(character): mengubah karakter ke nilai ASCII
+#             # chr(...): mengubah hasil XOR kembali ke karakter
+#             encrypted_char = chr(ord(character) ^ keystream_byte)
+
+#             # simpan karakter terenkripsi ke dalam list ciphertext_chars
+#             ciphertext_chars.append(encrypted_char)
+
+#         # gabungkan semua karakter terenkripsi menjadi satu string dengan ''.join()
 #         return ''.join(ciphertext_chars)
