@@ -17,12 +17,12 @@ class AESCipher:
         ciphertext = cipher.encrypt(padded)
         b64_ciphertext = base64.b64encode(ciphertext).decode()
 
-        print("\n==== PROSES ENKRIPSI AES-128 ====")
-        print("Key:", self.key)
-        print("IV:", self.iv)
-        print("Plaintext (Hex):", padded)
-        print("Ciphertext (Hex):", ciphertext.hex())
-        print("Ciphertext (Base64):", b64_ciphertext)
+        # print("\n==== PROSES ENKRIPSI AES-128 ====")
+        # print("Key:", self.key)
+        # print("IV:", self.iv)
+        # print("Plaintext (Hex):", padded)
+        # print("Ciphertext (Hex):", ciphertext.hex())
+        # print("Ciphertext (Base64):", b64_ciphertext)
 
         return b64_ciphertext
 
@@ -34,13 +34,13 @@ class AESCipher:
 
         try:
             plaintext = unpad(decrypted, AES.block_size)
-            print("\n==== PROSES DEKRIPSI AES-128 ====")
-            print("Key:", self.key)
-            print("IV:", self.iv)
-            print("Ciphertext:", ciphertext_byte)
-            print("Ciphertext (byte):", ciphertext_byte)
-            print("Decrypted Plaintext (Hex):", plaintext)
-            print(f"Decrypted Plaintext: {plaintext.decode()}")
+            # print("\n==== PROSES DEKRIPSI AES-128 ====")
+            # print("Key:", self.key)
+            # print("IV:", self.iv)
+            # print("Ciphertext:", ciphertext_byte)
+            # print("Ciphertext (byte):", ciphertext_byte)
+            # print("Decrypted Plaintext (Hex):", plaintext)
+            # print(f"Decrypted Plaintext: {plaintext.decode()}")
             return plaintext.decode()
         except ValueError:
             print("Error: Padding is incorrect. Data mungkin rusak atau kunci salah.")
